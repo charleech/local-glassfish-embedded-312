@@ -38,7 +38,7 @@
     <config name="server-config">
       <http-service>
         <access-log></access-log>
-        <virtual-server id="server" network-listeners="http-listener-1,http-listener-2"></virtual-server>
+        <virtual-server id="server" network-listeners="http-listener,http-listener-1,http-listener-2"></virtual-server>
         <virtual-server id="__asadmin" network-listeners="admin-listener"></virtual-server>
       </http-service>
       <iiop-service>
@@ -170,6 +170,11 @@
       </java-config>
       <network-config>
         <protocols>
+          <protocol name="http-listener">
+            <http default-virtual-server="server" max-connections="250">
+              <file-cache></file-cache>
+            </http>
+          </protocol>		
           <protocol name="http-listener-1">
             <http default-virtual-server="server" max-connections="250">
               <file-cache></file-cache>
@@ -203,7 +208,8 @@
           </protocol>
         </protocols>
         <network-listeners>
-          <network-listener port="14080" protocol="http-listener-1" transport="tcp" name="http-listener-1" thread-pool="http-thread-pool"></network-listener>
+          <network-listener port="14079" protocol="http-listener" transport="tcp" name="http-listener" thread-pool="http-thread-pool"></network-listener>
+		  <network-listener port="14080" protocol="http-listener-1" transport="tcp" name="http-listener-1" thread-pool="http-thread-pool"></network-listener>
           <network-listener port="14081" protocol="http-listener-2" transport="tcp" name="http-listener-2" thread-pool="http-thread-pool"></network-listener>
           <network-listener port="14048" protocol="pu-protocol" transport="tcp" name="admin-listener" thread-pool="admin-thread-pool"></network-listener>
         </network-listeners>
